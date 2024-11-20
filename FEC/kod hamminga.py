@@ -1,8 +1,6 @@
 import numpy as np
 
-from FEC.Generator import generuj_dane
 from FEC.kanaly import BSC
-
 
 def calcRedundantBits(m):
     for i in range(m):  # użycie wzoru 2 ^ r >= m + r + 1
