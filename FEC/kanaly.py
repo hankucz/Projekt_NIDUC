@@ -9,7 +9,7 @@ def BSC(dane_wejsciowe, prawdopodobienstwo):
 
     return kanal(dane_wejsciowe)                             # Zwraca dane wejściowe po przejściu przez kanał BSC
 
-def gilbert_elliott_model(p_dobry_do_zlego, p_zly_do_dobrego, input_data):
+def gilbert_elliott(p_dobry_do_zlego, p_zly_do_dobrego, input_data):
     state = "dobry"                                          # Inicjalizacja stanu
     dane_wyjsciowe = []                                      # Inicjalizacja tablicy przechowującej dane wyjsciowe
 

@@ -13,7 +13,7 @@ def main():
     #Gilberta Elliotta
     p_dobry_do_zlego = 0.5
     p_zly_do_dobrego = 0.5
-    wynik_g_e = kanaly.gilbert_elliott_model(p_dobry_do_zlego, p_zly_do_dobrego, dane_wejsciowe)
+    wynik_g_e = kanaly.gilbert_elliott(p_dobry_do_zlego, p_zly_do_dobrego, dane_wejsciowe)
 
     print("Dane wejściowe:", dane_wejsciowe)                     # Wyświetlenie wyników
     print("Dane po przejściu przez kanał BSC:", wynik_bsc)
