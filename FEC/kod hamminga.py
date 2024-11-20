@@ -21,7 +21,7 @@ def posRedundantBits(data, r):  # wstawanie "0" na miejsca o potęgach 2
             res[i] = int(data[k])  # Wstawiamy dane w odpowiednie miejsca
             k += 1
 
-    print("Zmienione dane (z bitami parzystości):", res)  # Debug
+    print("Zmienione dane (z bitami parzystości '0'):", res)  # Debug
     return res
 
 
@@ -61,17 +61,17 @@ print("Dane wejściowe", data)
 m = len(data)
 r = calcRedundantBits(m)
 
-arr = posRedundantBits(data, r)  # Działamy na tablicach NumPy
+arr = posRedundantBits(data, r)
 
-arr = np.array(arr, dtype=int)  # Tablica NumPy, jeśli jeszcze tego nie zrobiliśmy
+arr = np.array(arr, dtype=int)
 
 arr = calcParityBits(arr, r)
 
-print("Data transferred is", arr)
+print("Dane po przejściu przez kod Hamminga", arr)
 
 arr = BSC(arr, 0.1)
 
-print("Error Data is", arr)
+print("Dane po przejściu przez kanał BSC", arr)
 
 correction = detectError(arr, r)
 if correction == 0:
