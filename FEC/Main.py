@@ -1,7 +1,5 @@
 import kanaly
 import Generator
-import numpy as np
-
 
 def main():
     ilosc_bitow = 6                                              # ustalanie ilości bitów w danych wejsciowych

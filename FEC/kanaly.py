@@ -1,6 +1,5 @@
 import komm
 import numpy as np
-import random
 
 def BSC(dane_wejsciowe, prawdopodobienstwo):
 
