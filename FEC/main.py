@@ -6,7 +6,7 @@ import korekcja_powielania_bitow
 import kod_hamminga
 
 def main():
-    ilosc_bitow = 4                                             # ustalanie ilości bitów w danych wejsciowych
+    ilosc_bitow = 10                                             # ustalanie ilości bitów w danych wejsciowych
 
     stopien_powielenia_bitow = 15
 
@@ -15,7 +15,7 @@ def main():
     dane_wejscioewe_powielone = korekcja_powielania_bitow.powielanie(dane_wejsciowe, stopien_powielenia_bitow)
 
     #BSC
-    prawdopodobienstwo_BSC = 0.1                                     # Prawdopodobieństwo z jakim bit zostanie zmieniony na przeciwny
+    prawdopodobienstwo_BSC = 0.5                                     # Prawdopodobieństwo z jakim bit zostanie zmieniony na przeciwny
     wynik_bsc = kanaly.BSC(dane_wejsciowe, prawdopodobienstwo_BSC)   # Symulacja kanału BSC
     wynik_bsc_powielanie = kanaly.BSC(dane_wejscioewe_powielone, prawdopodobienstwo_BSC)  # Symulacja kanału BSC z zastosowaniem korekcji poprzez powielanie
 
