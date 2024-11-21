@@ -1,5 +1,6 @@
 import numpy as np
 
+from FEC.generator import generuj_dane
 from FEC.kanaly import BSC
 
 def calcRedundantBits(m):
@@ -40,22 +41,24 @@ def calcParityBits(arr, r):
     arr = arr[::-1]
     return arr
 
-def detectError(arr, nr):
+def detectError(arr, after_BSC, nr):
     n = len(arr)
     res = 0
 
     # Wykonujemy obliczenia XOR dla wszystkich bitów parzystości
-    for i in range(r):
+    for i in range(nr):
         val = 0
         for j in range(1, n + 1):
             if (j & (2 ** i)) == (2 ** i):  # Jeśli pozycja w danych ma być sprawdzona
-                val ^= arr[-j]              # XOR dla odpowiednich bitów
-
-        res += val * (2 ** i)               # Zbieramy wyniki XOR w reprezentacji binarnej
+                # Porównanie bitów w arr i after_BSC
+                if arr[-j] != after_BSC[-j]:
+                    val = 1  # Bit różni się, ustawiamy wynik XOR na 1
+        res += val * (2 ** i)  # Zbieramy wyniki XOR w reprezentacji binarnej
 
     return res
 
-data = '1011'
+data = generuj_dane(4)
+data = np.array(data)
 print("Dane wejściowe", data)
 
 m = len(data)
@@ -69,12 +72,13 @@ arr = calcParityBits(arr, r)
 
 print("Dane po przejściu przez kod Hamminga", arr)
 
-arr = BSC(arr, 0.1)
+after_BSC = BSC(arr, 0.2)
+print("Dane po przejściu przez kanał BSC", after_BSC)
 
-print("Dane po przejściu przez kanał BSC", arr)
-
-correction = detectError(arr, r)
+correction = detectError(arr, after_BSC, r)
 if correction == 0:
     print("Nie ma żadnego błędu")
+elif correction > len(arr):
+    print("Błędów jest więcej niż 1")
 else:
-    print("Pozycja błędu jest nr ", len(arr) - correction + 1, "od lewej")
+    print("Pozycja błędu jest nr ", len(arr) - correction + 1, "od lewej, ", correction)
