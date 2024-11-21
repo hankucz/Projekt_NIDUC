@@ -6,7 +6,7 @@ import korekcja_powielania_bitow
 import kod_hamminga
 
 def main():
-    ilosc_bitow = 10                                              # ustalanie ilości bitów w danych wejsciowych
+    ilosc_bitow = 4                                             # ustalanie ilości bitów w danych wejsciowych
 
     stopien_powielenia_bitow = 15
 
@@ -15,7 +15,7 @@ def main():
     dane_wejscioewe_powielone = korekcja_powielania_bitow.powielanie(dane_wejsciowe, stopien_powielenia_bitow)
 
     #BSC
-    prawdopodobienstwo_BSC = 0.5                                     # Prawdopodobieństwo z jakim bit zostanie zmieniony na przeciwny
+    prawdopodobienstwo_BSC = 0.1                                     # Prawdopodobieństwo z jakim bit zostanie zmieniony na przeciwny
     wynik_bsc = kanaly.BSC(dane_wejsciowe, prawdopodobienstwo_BSC)   # Symulacja kanału BSC
     wynik_bsc_powielanie = kanaly.BSC(dane_wejscioewe_powielone, prawdopodobienstwo_BSC)  # Symulacja kanału BSC z zastosowaniem korekcji poprzez powielanie
 
@@ -31,6 +31,7 @@ def main():
     p_bledu_zlyStan = 0.5
     wynik_g_e = kanaly.gilbert_elliott(dane_wejsciowe, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E
     wynik_g_e_powielanie = kanaly.gilbert_elliott(dane_wejscioewe_powielone, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E z zastosowaniem korekcji poprzez powielanie
+    wynik_g_e_hamming = kanaly.gilbert_elliott(encoded_hamming, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
 
     print("Dane wejściowe:", dane_wejsciowe)                     # Wyświetlenie wyników
     print("Dane po przejściu przez kanał BSC:", wynik_bsc)
@@ -44,6 +45,7 @@ def main():
     print("Zakodowane dane Hamminga:", encoded_hamming)
 
     print("Dane po przejściu przez kanał BSC (Hamming):", wynik_bsc_hamming)
+    print("Dane po przejściu przez kanał G-E (Hamming):", wynik_g_e_hamming)
 
     if has_error:
         print("Błąd został wykryty i poprawiony.")
