@@ -1,9 +1,10 @@
+import numpy as np
 def powielanie(dane, poziom_powielania):
     dane_powielone = []
     for x in dane:
         for _ in range(0,poziom_powielania):
             dane_powielone.append(x)
-    return dane_powielone
+    return np.array(dane_powielone)
 
 def korektor(dane, poziom_powielenia):
     skorygowane_dane = []
@@ -13,4 +14,4 @@ def korektor(dane, poziom_powielenia):
             skorygowane_dane.append(0)
         else:
             skorygowane_dane.append(1)
-    return skorygowane_dane
+    return np.array(skorygowane_dane)

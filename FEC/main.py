@@ -6,7 +6,7 @@ import korekcja_powielania_bitow
 import kod_hamminga
 
 def main():
-    ilosc_bitow = 4                                             # ustalanie ilości bitów w danych wejsciowych
+    ilosc_bitow = 4                                             # Ustalanie ilości bitów w danych wejsciowych
 
     stopien_powielenia_bitow = 15
 
@@ -25,7 +25,7 @@ def main():
     corrected_data_hamming_bsc = np.array(corrected_data_hamming_bsc)
 
     #Gilberta Elliotta
-    p_dobry_do_zlego = 0.5
+    p_dobry_do_zlego = 0.500
     p_zly_do_dobrego = 0.5
     p_bledu_dobryStan = 0.5
     p_bledu_zlyStan = 0.5
@@ -40,8 +40,8 @@ def main():
     print("Dane po przejściu przez kanał Gilberta Elliotta:", wynik_g_e)
     print("Dane po przejściu przez kanał BSC z zastosowanym powieleniem:", wynik_bsc_powielanie)
     print("Dane po przejściu przez kanał Gilberta Elliotta z zastosowanym powieleniem:", wynik_g_e_powielanie)
-    print("Skorygowane dane po BSC: ", korekcja_powielania_bitow.korektor(wynik_bsc_powielanie, stopien_powielenia_bitow))
-    print("Skorygowane dane po G-E: ", korekcja_powielania_bitow.korektor(wynik_g_e_powielanie, stopien_powielenia_bitow))
+    print("Skorygowane dane po BSC (powielanie): ", korekcja_powielania_bitow.korektor(wynik_bsc_powielanie, stopien_powielenia_bitow))
+    print("Skorygowane dane po G-E (powielanie): ", korekcja_powielania_bitow.korektor(wynik_g_e_powielanie, stopien_powielenia_bitow))
 
     print("*************************************************")
     print("Zakodowane dane Hamminga:", encoded_hamming)
@@ -63,7 +63,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# przy okazji znalazlam jak kodować za pomoca ej biblioteki:
-    # Kodowanie danych wejściowych przy użyciu kodera binarnego z komm
-    #encoder = komm.BinEncoder()
-    #encoded_bits = encoder.encode(input_bits)
