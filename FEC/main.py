@@ -25,19 +25,19 @@ def main():
     corrected_data_hamming_bsc = np.array(corrected_data_hamming_bsc)
 
     #Gilberta Elliotta
-    p_dobry_do_zlego = 0.500
-    p_zly_do_dobrego = 0.5
-    p_bledu_dobryStan = 0.5
-    p_bledu_zlyStan = 0.5
-    wynik_g_e = kanaly.gilbert_elliott(dane_wejsciowe, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E
-    wynik_g_e_powielanie = kanaly.gilbert_elliott(dane_wejscioewe_powielone, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E z zastosowaniem korekcji poprzez powielanie
-    wynik_g_e_hamming = kanaly.gilbert_elliott(encoded_hamming, p_dobry_do_zlego, p_zly_do_dobrego, p_bledu_dobryStan, p_bledu_zlyStan) # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
+    q = 0.5
+    p = 0.5
+    wynik_g_e = kanaly.gilbert_elliott(dane_wejsciowe, q, p)                       # Symulacja kanału G-E
+    wynik_g_e_powielanie = kanaly.gilbert_elliott(dane_wejscioewe_powielone, q, p) # Symulacja kanału G-E z zastosowaniem korekcji poprzez powielanie
+    wynik_g_e_hamming = kanaly.gilbert_elliott(encoded_hamming, q, p)              # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
     corrected_data_hamming_ge, has_error_ge = kod_hamminga.popraw_bity_hamminga(wynik_g_e_hamming)
     corrected_data_hamming_ge = np.array(corrected_data_hamming_ge)
 
     print("Dane wejściowe:", dane_wejsciowe)                     # Wyświetlenie wyników
     print("Dane po przejściu przez kanał BSC:", wynik_bsc)
     print("Dane po przejściu przez kanał Gilberta Elliotta:", wynik_g_e)
+
+    print("*************************************************")
     print("Dane po przejściu przez kanał BSC z zastosowanym powieleniem:", wynik_bsc_powielanie)
     print("Dane po przejściu przez kanał Gilberta Elliotta z zastosowanym powieleniem:", wynik_g_e_powielanie)
     print("Skorygowane dane po BSC (powielanie): ", korekcja_powielania_bitow.korektor(wynik_bsc_powielanie, stopien_powielenia_bitow))
@@ -58,7 +58,6 @@ def main():
         print("Błąd został wykryty i poprawiony.")
 
     print("Skorygowane dane po G-E (Hamming):", corrected_data_hamming_ge)
-
 
 if __name__ == "__main__":
     main()
