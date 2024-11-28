@@ -10,11 +10,13 @@ def dodaj_bity_parzystosci(dane):
     hamming_code = [0] * (n + r)                       # Tworzenie tablicy z bitami parzystości
 
     j = 0                                              # Wstawianie danych wejściowych do odpowiednich pozycji w hamming_code
-    for i in range(1, n + r + 1):
-        if i == 2 ** j:                                # Pozycje bitów parzystości
-            j += 1
+    for i in range( len(hamming_code), 0, -1):
+        if (i & (i - 1) == 0):                                # Pozycje bitów parzystości
+            continue
         else:
-            hamming_code[i - 1] = dane[i - j - 1]
+            hamming_code[i - 1] = dane[j]
+            j += 1
+
     for i in range(r):                                  # Obliczanie bitów parzystości
         parity_pos = 2 ** i
         parity_bit = 0
@@ -26,11 +28,12 @@ def dodaj_bity_parzystosci(dane):
 
         hamming_code[parity_pos - 1] = parity_bit
 
-    return hamming_code
+    return hamming_code[::-1]
 
 
 def popraw_bity_hamminga(dane):
     """Poprawia bity w zakodowanych danych przy użyciu kodu Hamminga."""
+    dane = dane[::-1]
     n = len(dane)
     r = 0
 
@@ -44,16 +47,17 @@ def popraw_bity_hamminga(dane):
         parity_bit = 0
         for j in range(1, n + 1):
             if (j & parity_pos) == parity_pos:         # Sprawdzenie pozycji kontrolowanej przez bit parzystości
-                parity_bit ^= sum(dane[j - 1:j + (parity_pos - 1) * 2 + 1:parity_pos])
+                parity_bit ^= dane[j - 1]
 
         if parity_bit != 0:
             error_position += parity_pos
 
-                                                       # Popraw błąd, jeśli został znaleziony
-    if error_position > 0 and error_position <= n:     # Upewnij się, że indeks jest w zakresie
+    if 0 < error_position <= n:
         dane[error_position - 1] ^= 1
+                                                       # Popraw błąd, jeśli został znaleziony
 
     corrected_data = []                                # Usunięcie bitów parzystości i zwrócenie poprawionych danych
+    corrected_data = corrected_data[::-1]
     j = 0
     for i in range(1, n + 1):
         if i != (2 ** j):                              # Pomijaj bity parzystości
@@ -61,4 +65,4 @@ def popraw_bity_hamminga(dane):
         else:
             j += 1
 
-    return corrected_data, error_position > 0
+    return corrected_data[::-1], 1 if error_position else 0
