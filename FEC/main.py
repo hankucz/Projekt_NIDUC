@@ -19,19 +19,19 @@ def main():
     wynik_bsc = kanaly.BSC(dane_wejsciowe, prawdopodobienstwo_BSC)   # Symulacja kanału BSC
     wynik_bsc_powielanie = kanaly.BSC(dane_wejscioewe_powielone, prawdopodobienstwo_BSC)  # Symulacja kanału BSC z zastosowaniem korekcji poprzez powielanie
 
-    encoded_hamming = kod_hamminga.dodaj_bity_parzystosci(dane_wejsciowe)
-    wynik_bsc_hamming = kanaly.BSC(encoded_hamming, prawdopodobienstwo_BSC)
-    (corrected_data_hamming_bsc, has_error_bsc) = kod_hamminga.popraw_bity_hamminga(wynik_bsc_hamming)
-    corrected_data_hamming_bsc = np.array(corrected_data_hamming_bsc)
+    zakodowany_kod_hamminga = kod_hamminga.dodaj_bity_parzystosci(dane_wejsciowe)
+    wynik_bsc_hamming = kanaly.BSC(zakodowany_kod_hamminga, prawdopodobienstwo_BSC)
+    (odkodowany_kod_hamminga_bsc, czy_ma_blad_bsc) = kod_hamminga.popraw_bity_hamminga(wynik_bsc_hamming)
+    odkodowany_kod_hamminga_bsc = np.array(odkodowany_kod_hamminga_bsc)
 
     #Gilberta Elliotta
     q = 0.5
     p = 0.5
     wynik_g_e = kanaly.gilbert_elliott(dane_wejsciowe, q, p)                       # Symulacja kanału G-E
     wynik_g_e_powielanie = kanaly.gilbert_elliott(dane_wejscioewe_powielone, q, p) # Symulacja kanału G-E z zastosowaniem korekcji poprzez powielanie
-    wynik_g_e_hamming = kanaly.gilbert_elliott(encoded_hamming, q, p)              # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
-    corrected_data_hamming_ge, has_error_ge = kod_hamminga.popraw_bity_hamminga(wynik_g_e_hamming)
-    corrected_data_hamming_ge = np.array(corrected_data_hamming_ge)
+    wynik_g_e_hamming = kanaly.gilbert_elliott(zakodowany_kod_hamminga, q, p)              # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
+    odkodowany_kod_hamminga_ge, czy_ma_blad_ge = kod_hamminga.popraw_bity_hamminga(wynik_g_e_hamming)
+    odkodowany_kod_hamminga_ge = np.array(odkodowany_kod_hamminga_ge)
 
     print("Dane wejściowe:", dane_wejsciowe)                     # Wyświetlenie wyników
     print("Dane po przejściu przez kanał BSC:", wynik_bsc)
@@ -44,22 +44,22 @@ def main():
     print("Skorygowane dane po G-E (powielanie): ", korekcja_powielania_bitow.korektor(wynik_g_e_powielanie, stopien_powielenia_bitow))
 
     print("*************************************************")
-    print("Zakodowane dane Hamminga:", encoded_hamming)
+    print("Zakodowane dane Hamminga:", zakodowany_kod_hamminga)
 
     print("Dane po przejściu przez kanał BSC (Hamming):", wynik_bsc_hamming)
     print("Dane po przejściu przez kanał G-E (Hamming):", wynik_g_e_hamming)
 
-    if has_error_bsc:
+    if czy_ma_blad_bsc:
         print("Błąd został wykryty i poprawiony.")
 
-    print("Skorygowane dane po BSC (Hamming):", corrected_data_hamming_bsc)
+    print("Skorygowane dane po BSC (Hamming):", odkodowany_kod_hamminga_bsc)
 
 
 
-    if has_error_ge:
+    if czy_ma_blad_ge:
         print("Błąd został wykryty i poprawiony.")
 
-    print("Skorygowane dane po G-E (Hamming):", corrected_data_hamming_ge)
+    print("Skorygowane dane po G-E (Hamming):", odkodowany_kod_hamminga_ge)
 
 if __name__ == "__main__":
     main()
