@@ -12,7 +12,7 @@ def main():
     przypadki = dane.przypadki()
 
     # Przygotowanie pliku wyjściowego z wynikami
-    plik_wyniki = open("output.csv", "w")
+    plik_wyniki = open("wyjscie.csv", "w")
 
     # Zapis nagłówków do pliku z wynikami
     for klucz in przypadki[0]:
