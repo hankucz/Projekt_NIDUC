@@ -40,7 +40,7 @@ def przypadki():
         {
             'opis': f'Przypadek {i+1}', 
             'id_przypadku' : (i+1),
-            
+
             'ilosc_bitow' : random.randint(1, 150), 
             'stopien_powielenia_bitow' : random.randint(1, 50), 
             'q' : round(random.uniform(0.01, 0.99), 2), 
@@ -53,6 +53,10 @@ def przypadki():
             'ile_zlych_g_e_hamming' : None,
             'czy_blad_bsc_hamming' : None,
             'czy_blad_ge_hamming' : None,
+            'skutecznosc_bsc_hamming' : None,
+            'skutecznosc_g_e_hamming' : None,
+            'skutecznosc_bsc_powielanie' : None,
+            'skutecznosc_g_e_powielanie' : None,
         } for i in range(1500)
     ]
 
