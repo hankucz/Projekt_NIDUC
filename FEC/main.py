@@ -41,12 +41,6 @@ def main():
            # Korekcja po transmisji przez kanał BSC z zastosowaniem korekcji poprzez powielanie
            wynik_korekcja_bsc_powielanie = korekcja_powielania_bitow.korektor(wynik_bsc_powielanie, przypadek['stopien_powielenia_bitow'])
 
-           # Symulacja kanału BSC z zastosowaniem korekcji poprzez kod Hamminga
-           zakodowany_hamming = kod_hamminga.dodaj_bity_parzystosci(dane_wejsciowe)
-           wynik_bsc_hamming = kanaly.BSC(zakodowany_hamming, przypadek['prawdopodobienstwo_BSC'])
-           (skorygowane_dane_hamming_bsc, przypadek['czy_blad_bsc_hamming']) = kod_hamminga.popraw_bity_hamminga(wynik_bsc_hamming)
-           skorygowane_dane_hamming_bsc = np.array(skorygowane_dane_hamming_bsc)
-
 
            # --------------------
            #Gilberta Elliotta
@@ -59,10 +53,6 @@ def main():
            # Korekcja po transmisji przez kanał G-E z zastosowaniem korekcji poprzez powielanie
            wynik_korekcja_g_e_powielanie = korekcja_powielania_bitow.korektor(wynik_g_e_powielanie, przypadek['stopien_powielenia_bitow'])
 
-           # Symulacja kanału G-E z zastosowaniem korekcji poprzez kod Hamminga
-           wynik_g_e_hamming = kanaly.gilbert_elliott(zakodowany_hamming, przypadek['q'], przypadek['p'])
-           (skorygowane_dane_hamming_ge, przypadek['czy_blad_ge_hamming']) = kod_hamminga.popraw_bity_hamminga(wynik_g_e_hamming)
-           skorygowane_dane_hamming_ge = np.array(skorygowane_dane_hamming_ge)
 
 
            # --------------------
@@ -102,44 +92,43 @@ def main():
            przypadek['skutecznosc_g_e_powielanie'] = (przypadek['ilosc_bitow']-licz_ile_zlych_g_e_powielanie)/przypadek['ilosc_bitow']
            print(f"Korekcja przez powielanie w kanele G-E miała skuteczność: {przypadek['ilosc_bitow']-licz_ile_zlych_g_e_powielanie}/{przypadek['ilosc_bitow']}")
 
+
+
+
            # --------------------
+           #Symulacja dla kodów Hamminga
+           #Symulacja dla kodu Hamminga(7,4) ----------------------------------------
+           czy_blad_hamming_bsc_7_4, czy_naprawiony_hamming_bsc_7_4, czy_blad_ge_hamming_7_4, czy_naprawiony_hamming_ge_7_4 = kod_hamminga.simulacja(
+               przypadek, dane_wejsciowe, 7, 4)
 
-           # Wyswietlanie danych po zastosowaniu korekcji przez kod Haminga
-           print("*"*20)
-           print("Zakodowane dane Hamminga:", zakodowany_hamming)
+           przypadek['czy_blad_bsc_hamming_7_4'] = czy_blad_hamming_bsc_7_4
+           przypadek['czy_naprawiony_hamming_7_4_bsc'] = czy_naprawiony_hamming_bsc_7_4
+           przypadek['czy_blad_ge_hamming_7_4'] = czy_blad_ge_hamming_7_4
+           przypadek['czy_naprawiony_hamming_ge_7_4'] = czy_naprawiony_hamming_ge_7_4
 
-           print("Dane po przejściu przez kanał BSC (Hamming):", wynik_bsc_hamming)
-           print("Dane po przejściu przez kanał G-E (Hamming):", wynik_g_e_hamming)
+           # Symulacja dla kodu Hamminga(15,11) ----------------------------------------
+           czy_blad_hamming_bsc_15_11, czy_naprawiony_hamming_bsc_15_11, czy_blad_ge_hamming_15_11, czy_naprawiony_hamming_15_11_ge = kod_hamminga.simulacja(przypadek, dane_wejsciowe, 15, 11)
 
-           print("*"*10)
-           # Weryfikacja czy korekta się udała
-           if przypadek['czy_blad_bsc_hamming']:
-               print("Błąd w kanale BSC został wykryty i poprawiony.")
-           # Zliczanie blednych bitow w kanale BSC po korekcji kodem Hamminga
-           licz_ile_zlych_bsc_hamming = 0
-           for i in range(przypadek['ilosc_bitow']):
-               if not(dane_wejsciowe[i] == wynik_bsc_hamming[i]):
-                   licz_ile_zlych_bsc_hamming +=1
-           przypadek['ile_zlych_bsc_hamming'] = licz_ile_zlych_bsc_hamming
-           przypadek['skutecznosc_bsc_hamming'] = (przypadek['ilosc_bitow']-licz_ile_zlych_bsc_hamming)/przypadek['ilosc_bitow']
-           print(f"Korekcja kodem Hamminga w kanele BSC miała skuteczność: {przypadek['ilosc_bitow']-licz_ile_zlych_bsc_hamming}/{przypadek['ilosc_bitow']}")
+           przypadek['czy_blad_bsc_hamming_15_11'] = czy_blad_hamming_bsc_15_11
+           przypadek['czy_naprawiony_hamming_15_11_bsc'] = czy_naprawiony_hamming_bsc_15_11
+           przypadek['czy_blad_ge_hamming_15_11'] = czy_blad_ge_hamming_15_11
+           przypadek['czy_naprawiony_hamming_15_11_ge'] = czy_naprawiony_hamming_15_11_ge
 
-           print("Skorygowane dane po BSC (Hamming):", skorygowane_dane_hamming_bsc)
+           # Symulacja dla kodu Hamminga(31,26) ----------------------------------------
+           czy_blad_hamming_bsc_31_26, czy_naprawiony_hamming_bsc_31_26, czy_blad_ge_hamming_31_26, czy_naprawiony_hamming_31_26_ge = kod_hamminga.simulacja(przypadek, dane_wejsciowe, 31, 26)
 
-           print("*"*10)
-           # Weryfikacja czy korekta się udała
-           if przypadek['czy_blad_ge_hamming']:
-               print("Błąd w kanale G-E został wykryty i poprawiony.")
-           # Zliczanie blednych bitow w kanale G-E po korekcji kodem Hamminga
-           licz_ile_zlych_g_e_hamming = 0
-           for i in range(przypadek['ilosc_bitow']):
-               if not(dane_wejsciowe[i] == wynik_g_e_hamming[i]):
-                   licz_ile_zlych_g_e_hamming +=1
-           przypadek['ile_zlych_g_e_hamming'] = licz_ile_zlych_g_e_hamming
-           przypadek['skutecznosc_g_e_hamming'] = (przypadek['ilosc_bitow']-licz_ile_zlych_g_e_hamming)/przypadek['ilosc_bitow']
-           print(f"Korekcja kodem Hamminga w kanele G-E miała skuteczność: {przypadek['ilosc_bitow']-licz_ile_zlych_g_e_hamming}/{przypadek['ilosc_bitow']}")
+           przypadek['czy_blad_bsc_hamming_31_26'] = czy_blad_hamming_bsc_31_26
+           przypadek['czy_naprawiony_hamming_31_26_bsc'] = czy_naprawiony_hamming_bsc_31_26
+           przypadek['czy_naprawiony_hamming_31_26_ge'] = czy_naprawiony_hamming_31_26_ge
+           przypadek['czy_blad_ge_hamming_31_26'] = czy_blad_ge_hamming_31_26
 
-           print("Skorygowane dane po G-E (Hamming):", skorygowane_dane_hamming_ge)
+           # Symulacja dla kodu Hamminga(63,57) ----------------------------------------
+           czy_blad_hamming_bsc_63_57, czy_naprawiony_hamming_bsc_63_57, czy_blad_ge_hamming_63_57, czy_naprawiony_hamming_63_57_ge = kod_hamminga.simulacja(przypadek, dane_wejsciowe, 63, 57)
+
+           przypadek['czy_blad_bsc_hamming_63_57'] = czy_blad_hamming_bsc_63_57
+           przypadek['czy_naprawiony_hamming_63_57_bsc'] = czy_naprawiony_hamming_bsc_63_57
+           przypadek['czy_naprawiony_hamming_63_57_ge'] = czy_naprawiony_hamming_63_57_ge
+           przypadek['czy_blad_ge_hamming_63_57'] = czy_blad_ge_hamming_63_57
 
            # Zapis wartości przypadku do pliku
            plik_wyniki.write('\n')

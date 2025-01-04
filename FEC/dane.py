@@ -41,23 +41,37 @@ def przypadki():
             'opis': f'Przypadek {i+1}', 
             'id_przypadku' : (i+1),
 
-            'ilosc_bitow' : random.randint(1, 150), 
-            'stopien_powielenia_bitow' : random.randint(1, 50), 
-            'q' : round(random.uniform(0.01, 0.99), 2), 
-            'p' : round(random.uniform(0.01, 0.99), 2),
-            'prawdopodobienstwo_BSC' : round(random.uniform(0.01, 0.99), 2),
+            'ilosc_bitow' : random.randint(1, 5),
+            'stopien_powielenia_bitow' : random.randint(1, 5),
+            'q' : 0.05,
+            'p' : round(random.uniform(0.00, 0.99), 2),
+            'prawdopodobienstwo_BSC' : round(random.uniform(0.00, 0.99), 2),
 
             'ile_zlych_bsc_powielanie' : None,
             'ile_zlych_g_e_powielanie' : None,
-            'ile_zlych_bsc_hamming' : None,
-            'ile_zlych_g_e_hamming' : None,
-            'czy_blad_bsc_hamming' : None,
-            'czy_blad_ge_hamming' : None,
-            'skutecznosc_bsc_hamming' : None,
-            'skutecznosc_g_e_hamming' : None,
             'skutecznosc_bsc_powielanie' : None,
             'skutecznosc_g_e_powielanie' : None,
-        } for i in range(1500)
+
+            'czy_blad_bsc_hamming_7_4': None,
+            'czy_naprawiony_hamming_7_4_bsc': None,
+            'czy_blad_ge_hamming_7_4': None,
+            'czy_naprawiony_hamming_ge_7_4': None,
+
+            'czy_blad_bsc_hamming_15_11': None,
+            'czy_naprawiony_hamming_15_11_bsc': None,
+            'czy_blad_ge_hamming_15_11': None,
+            'czy_naprawiony_hamming_15_11_ge': None,
+
+            'czy_naprawiony_hamming_31_26_bsc': None,
+            'czy_blad_bsc_hamming_31_26': None,
+            'czy_naprawiony_hamming_31_26_ge': None,
+            'czy_blad_ge_hamming_31_26': None,
+
+            'czy_blad_bsc_hamming_63_57': None,
+            'czy_naprawiony_hamming_63_57_bsc': None,
+            'czy_naprawiony_hamming_63_57_ge': None,
+            'czy_blad_ge_hamming_63_57': None
+        } for i in range(2000)
     ]
 
     return przypadki
