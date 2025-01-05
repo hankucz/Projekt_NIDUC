@@ -42,9 +42,9 @@ def przypadki():
             'id_przypadku' : (i+1),
 
             'ilosc_bitow' : random.randint(1, 5),
-            'stopien_powielenia_bitow' : random.randint(1, 5),
-            'q' : 0.05,
-            'p' : round(random.uniform(0.00, 0.99), 2),
+            'stopien_powielenia_bitow' : random.randint(1, 10),
+            'q' : round(random.uniform(0.00, 0.99), 2),
+            'p' : 0.1,
             'prawdopodobienstwo_BSC' : round(random.uniform(0.00, 0.99), 2),
 
             'ile_zlych_bsc_powielanie' : None,
@@ -71,7 +71,7 @@ def przypadki():
             'czy_naprawiony_hamming_63_57_bsc': None,
             'czy_naprawiony_hamming_63_57_ge': None,
             'czy_blad_ge_hamming_63_57': None
-        } for i in range(2000)
+        } for i in range(7500)
     ]
 
     return przypadki

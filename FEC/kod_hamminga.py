@@ -79,8 +79,12 @@ def dekoduj(wiadomosc: List[int], n:int, k:int) -> List[int]:
 
     wynik = []
     for fragment in fragmenty_wiadomosci:
-        wynik_fragmentu = np.dot(macierz_r, np.array(fragment).reshape(-1, 1)) % 2
-        wynik.extend(wynik_fragmentu.flatten().tolist())
+        wynik_fragmentu = np.array(fragment).reshape(-1, 1)
+        res_array = np.dot(macierz_r, wynik_fragmentu)
+        res_array=[int(x%2)for x in res_array.flatten()]
+
+
+        wynik.extend(res_array[:k])
 
     return wynik
 
@@ -161,37 +165,35 @@ def simulacja(przypadek,wejscie, n, k):
     # Symulacja kanału BSC z zastosowaniem korekcji poprzez kod Hamminga(n, k)
     wynik_bsc_hamming = kanaly.BSC(zakodowany_hamming, przypadek['prawdopodobienstwo_BSC']).tolist()
 
-    syndrom_bledu_bsc = syndrom(wynik_bsc_hamming, n ,k)
-    korygowanie_dane_hamming_bsc = popraw(syndrom_bledu_bsc, wynik_bsc_hamming, n, k)
-    skorygowane_dane_hamming_bsc = dekoduj(korygowanie_dane_hamming_bsc, n, k)
-
     czy_blad_bsc_hamming = sprawdz_bledy(zakodowany_hamming, wynik_bsc_hamming)
-    czy_naprawiony_hamming_bsc = sprawdz_bledy(zakodowany_hamming, korygowanie_dane_hamming_bsc)
+
+    syndrom_bledu_bsc = syndrom(wynik_bsc_hamming, n, k)
+    korygowanie_dane_hamming_bsc = popraw(syndrom_bledu_bsc, wynik_bsc_hamming, n, k)
+    dekodowane_dane_hamming_bsc = dekoduj(korygowanie_dane_hamming_bsc, n, k)
+
+    czy_naprawiony_hamming_bsc = sprawdz_bledy(wejscie, dekodowane_dane_hamming_bsc)
+
+    if czy_naprawiony_hamming_bsc == 1:
+        czy_naprawiony_hamming_bsc = 0
+    else: czy_naprawiony_hamming_bsc = 1
+
 
     # Symulacja kanału GE z zastosowaniem korekcji poprzez kod Hamminga(n, k)
     wynik_ge_hamming = kanaly.gilbert_elliott(zakodowany_hamming, przypadek['q'], przypadek['p'])
     print(list(map(int, zakodowany_hamming)))
     print(wynik_ge_hamming)
 
+    czy_blad_ge_hamming = sprawdz_bledy(zakodowany_hamming, wynik_ge_hamming)
+
     syndrom_bledu_ge = syndrom(wynik_ge_hamming, n, k)
     korygowanie_dane_hamming_ge = popraw(syndrom_bledu_ge, wynik_ge_hamming, n, k)
-    skorygowane_dane_hamming_ge = dekoduj(korygowanie_dane_hamming_ge, n, k)
+    dekodowane_dane_hamming_ge = dekoduj(korygowanie_dane_hamming_ge, n, k)
 
-    czy_blad_ge_hamming = sprawdz_bledy(zakodowany_hamming, wynik_ge_hamming)
-    czy_naprawiony_hamming_ge = sprawdz_bledy(zakodowany_hamming, korygowanie_dane_hamming_ge)
-
-
-
-    if czy_naprawiony_hamming_bsc == 1:
-        czy_naprawiony_hamming_bsc = 0
-    else:
-        czy_naprawiony_hamming_bsc = 1
-
+    czy_naprawiony_hamming_ge = sprawdz_bledy(wejscie, dekodowane_dane_hamming_ge)
 
     if czy_naprawiony_hamming_ge == 1:
         czy_naprawiony_hamming_ge = 0
-    else:
-        czy_naprawiony_hamming_ge = 1
+    else: czy_naprawiony_hamming_ge = 1
 
     # Wyswietlanie danych po zastosowaniu korekcji przez kod Haminga
     print("*" * 20)
@@ -204,11 +206,12 @@ def simulacja(przypadek,wejscie, n, k):
         print("Wiadomość po przejściu przez kod Hamminga i kanał BSC: ", wynik_bsc_hamming)
 
         if czy_naprawiony_hamming_bsc == 1:
-            print("Wiadomość została w pełni poprawiona: ", skorygowane_dane_hamming_bsc)
+            print("Wiadomość została w pełni poprawiona: ", dekodowane_dane_hamming_bsc)
         else:
-            print("Wiadomość nie została w pełni poprawiona: ", skorygowane_dane_hamming_bsc)
+            print("Wiadomość nie została w pełni poprawiona: ", dekodowane_dane_hamming_bsc)
     else:
-        print("Nie wykryto błędu w wiadomości: ", skorygowane_dane_hamming_bsc)
+        print("Wiadomość po przejściu przez kod Hamminga i kanał BSC: ", wynik_bsc_hamming)
+        print("Nie wykryto błędu w wiadomości: ", dekodowane_dane_hamming_bsc)
 
 
     print("*" * 10)
@@ -219,10 +222,11 @@ def simulacja(przypadek,wejscie, n, k):
         print("Wiadomość po przejściu przez kod Hamminga i kanał GE: ", wynik_ge_hamming)
 
         if czy_naprawiony_hamming_ge == 1:
-            print("Wiadomość została w pełni poprawiona: ", skorygowane_dane_hamming_ge)
+            print("Wiadomość została w pełni poprawiona: ", dekodowane_dane_hamming_ge)
         else:
-            print("Wiadomość nie została w pełni poprawiona: ", skorygowane_dane_hamming_ge)
+            print("Wiadomość nie została w pełni poprawiona: ", dekodowane_dane_hamming_ge)
     else:
-        print("Nie wykryto błędu w wiadomości: ", skorygowane_dane_hamming_ge)
+        print("Wiadomość po przejściu przez kod Hamminga i kanał GE: ", wynik_ge_hamming)
+        print("Nie wykryto błędu w wiadomości: ", dekodowane_dane_hamming_ge)
 
     return czy_blad_bsc_hamming, czy_naprawiony_hamming_bsc, czy_blad_ge_hamming, czy_naprawiony_hamming_ge
