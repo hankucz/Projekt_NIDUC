@@ -2,7 +2,7 @@ from typing import List
 import numpy as np
 import kanaly
 
-# Stałe dla kodu Hamminga(31,26)
+# Stałe dla kodu Hamminga
 BITY_WIADOMOSCI = 0 # Całkowita liczba bitów w wiadomości
 BITY_DANYCH = 0      # Liczba bitów danych
 BITY_PARZYSTOSCI = BITY_WIADOMOSCI - BITY_DANYCH # Liczba bitów parzystości
