@@ -8,7 +8,7 @@ BITY_DANYCH = 0      # Liczba bitów danych
 BITY_PARZYSTOSCI = BITY_WIADOMOSCI - BITY_DANYCH # Liczba bitów parzystości
 BITY_KODU = BITY_DANYCH + BITY_PARZYSTOSCI  # Całkowita liczba bitów w jednym bloku kodowym
 
-# Funkcja kodująca wiadomość przy użyciu kodu Hamminga(7,4)
+# Funkcja kodująca wiadomość przy użyciu kodu Hamminga
 def koduj(wiadomosc: List[int], n:int  , k:int) -> List[int]:
     BITY_WIADOMOSCI = n
     BITY_DANYCH =k
